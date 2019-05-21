@@ -7,6 +7,12 @@
  * @version 2019-05-21
  */
 spl_autoload_register(function($class){
+    //Only autoload for the Tabula namespace
+    $prefix = '\\Tabula\\';
+    if (0 !== strncmp($url,$this->path,strlen($this->path))){
+        return;
+    }
+
     $baseDir = realpath(__DIR__ . DS . '..');
     $file = $baseDir . DS . str_replace('\\', DS, $class) . '.php';
 
