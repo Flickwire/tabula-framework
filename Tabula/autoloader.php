@@ -8,8 +8,8 @@
  */
 spl_autoload_register(function($class){
     //Only autoload for the Tabula namespace
-    $prefix = '\\Tabula\\';
-    if (0 !== strncmp($url,$this->path,strlen($this->path))){
+    $prefix = 'Tabula\\';
+    if (0 !== strncmp($class,$prefix,strlen($prefix))){
         return;
     }
 
