@@ -13,8 +13,8 @@ spl_autoload_register(function($class){
         return;
     }
 
-    $baseDir = realpath(__DIR__ . DS . '..');
-    $file = $baseDir . DS . str_replace('\\', DS, $class) . '.php';
+    $class = substr($class, strlen($prefix));
+    $file = TABULA_BASE . DS . str_replace('\\', DS, $class) . '.php';
 
     if(file_exists($file)){
         require_once($file);

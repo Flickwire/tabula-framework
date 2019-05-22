@@ -1,5 +1,6 @@
 <?php
 define('DS',DIRECTORY_SEPARATOR);
+define('TABULA_BASE',__DIR__);
 //Set up Tabula Autoloader
 require_once('autoloader.php');
 
