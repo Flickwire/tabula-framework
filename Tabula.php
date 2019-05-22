@@ -35,7 +35,7 @@ class Tabula {
      * @author Skye
      */
     public function doRouting() {
-        $url = $_SERVER[REQUEST_URI]; //TODO: Replace this with a registry call, once the registry exists
+        $url = $this->registry->getRequest()->getUri;//$_SERVER[REQUEST_URI]; //TODO: Replace this with a registry call, once the registry exists
         $route = $this->router->resolve($url);
         if ($route instanceof Router\Route){
             $route->run();
