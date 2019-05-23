@@ -3,9 +3,26 @@ namespace Tabula;
 
 class Registry {
     private $data;
+    private $tabula;
 
-    public function __construct(){
+    public function __construct($tabula){
+        $this->tabula = $tabula;
         $this->data = array();
+    }
+
+    /**
+     * Fill registry with useful default information
+     * 
+     * @author Skye
+     */
+    private function prefill(){
+        $docroot = $_SERVER["DOCUMENT_ROOT"];
+        $projectbase = getcwd();
+        $uribase = ''; //Fallback in case path analysis fails
+        if(\strncmp($docroot,$projectbase,strlen($docroot)) === 0){
+            $uribase = \str_replace(DS,'/',\substr($projectbase,\strlen($docroot))); //Find base path of project
+        }
+        $this->setUriBase($uribase);
     }
 
     /**
@@ -30,6 +47,7 @@ class Registry {
             case 'set':
                 if(\count($arguments) === 1){
                     $this->data[$key] = $arguments[0];
+                    return;
                 } else {
                     throw new \ArgumentCountError("Exactly one argument expected to set registry value");
                 }

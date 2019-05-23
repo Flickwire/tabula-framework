@@ -9,9 +9,9 @@ namespace Tabula\Module;
  * @author Skye
  */
 class Autoloader {
-    public function __construct(){
+    public function __construct($tabula){
         spl_autoload_register(function($class){
-            $registry = \Tabula\Tabula::getInstance()->registry;
+            $registry = $tabula->registry;
             $modulesDir = $registry->getModulesDir();
             foreach ($registry->getModules() as $module){
                 $baseDir = realpath($modulesDir . DS . $module->getDirName());
