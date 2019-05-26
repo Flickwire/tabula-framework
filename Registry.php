@@ -22,6 +22,7 @@ class Registry {
         if(\strncmp($docroot,$projectbase,strlen($docroot)) === 0){
             $uribase = \str_replace(DS,'/',\substr($projectbase,\strlen($docroot))); //Find base path of project
         }
+        $this->setFsBase($projectbase);
         $this->setUriBase($uribase);
     }
 
