@@ -1,11 +1,11 @@
 <?php
 namespace Tabula;
 
-class Config implements \Serializable{
+class Config{
     private $data;
 
-    private function __construct(){
-        $this->data = array();
+    public function __construct(string $data){
+        $this->data = \json_decode($data);
     }
 
     public function __get(string $name){
@@ -17,16 +17,6 @@ class Config implements \Serializable{
 
     public function __isset(string $name){
         return isset($this->data[$name]);
-    }
-
-    public function serialize(): string{
-        return \json_encode($this->data);
-    }
-
-    public static function unserialize(string $data): Config{
-        $config = new Config();
-        $config->data = \json_decode($data);
-        return $config;
     }
 
     public function get(string $name){
