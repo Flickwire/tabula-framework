@@ -5,7 +5,7 @@ class Config{
     private $data;
 
     public function __construct(string $data){
-        $this->data = \json_decode($data);
+        $this->data = \json_decode($data,true);
     }
 
     public function __get(string $name){
