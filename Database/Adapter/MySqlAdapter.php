@@ -2,6 +2,7 @@
 namespace Tabula\Database\Adapter;
 
 use PDO;
+use PDOStatement;
 
 class MySqlAdapter implements AbstractAdapter {
     private $resource;
@@ -17,7 +18,7 @@ class MySqlAdapter implements AbstractAdapter {
         $this->resource = new PDO($dsn, $user, $password, $options);
     }
 
-    public function query(){
+    public function query(): PDOStatement{
         $args = \func_get_args();
         if(count($args) === 0){
             throw new \ArgumentCountError("Expected at least one argument");
@@ -27,22 +28,50 @@ class MySqlAdapter implements AbstractAdapter {
         } else {
             $args = \func_get_args();
             $query = $args[0];
-            if (!($this->statement instanceof \PDOStatement) || $this->statement->queryString != $query){
-                if ($this->statement instanceof \PDOStatement){
-                    $this->statement->closeCursor();
-                }
+            //Parse query to find typed parameters
+            $parsedQuery = $this->detectTypes($query);
+            $query = $parsedQuery[0];
+            $types = $parsedQuery[1];
+            if ($this->statement instanceof PDOStatement){
+                $this->statement->closeCursor();
+            }
+            if (!($this->statement instanceof PDOStatement) || $this->statement->queryString != $query){
+                echo 'preparing new statement<br/>';
                 $this->statement = $this->resource->prepare($query);
             }
+            //Set type for typed parameters
             foreach($args as $i => $arg){
                 if ($i === 0) continue;
-                $this->statement->bindValue($i, $arg);
+                switch($types[i-1]){
+                    case '?i':
+                        $type = PDO::PARAM_INT;
+                        break;
+                    case '?b':
+                        $type = PDO::PARAM_BOOL;
+                        break;
+                    case '?f':
+                        $arg = strval($arg);
+                    case '?s':
+                    default:
+                        $type = PDO::PARAM_STR;
+                        break;
+                }
+                $this->statement->bindValue($i, $arg, $type);
             }
             $this->statement->execute();
             return $this->statement;
         }
     }
 
-    public function escape($value){
+    private function detectTypes(string $query): array{
+        $pattern = '/\?[sibf]?/';
+        $indicators = array();
+        \preg_match_all($pattern,$query,$matches);
+        $query = \preg_replace($pattern,'?',$query);
+        return array($query,$indicators);
+    }
+
+    public function escape($value): string{
         return $this->resource->quote($value);
     }
 
