@@ -9,8 +9,9 @@ namespace Tabula;
 class Tabula {
     public $registry;
     public $router;
-    public $config;
     public $db;
+    
+    private $config;
 
     public function __construct() {
         $this->registry = new Registry($this);
