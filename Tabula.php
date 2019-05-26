@@ -23,7 +23,7 @@ class Tabula {
         $dbconf = $this->config->database;
         switch ($dbconf['type']){
             case "mysql":
-                $this->db = new Database\Adapter\MySqlAdapter($dbconf['host'], $dbconf['database'], $dbconf['user'], $dbconf['password'], isset($dbconf['port']) ? $dbconf['port'] : null, isset($dbconf['charset']) ? $dbconf['charset'] : null);
+                $this->db = new Database\Adapter\MySqlAdapter($dbconf['host'], $dbconf['database'], $dbconf['user'], $dbconf['password'], (isset($dbconf['port']) ? $dbconf['port'] : null), (isset($dbconf['charset']) ? $dbconf['charset'] : null));
                 break;
             default:
                 throw new \Exception("Unsupported database type {$dbconf['type']}");

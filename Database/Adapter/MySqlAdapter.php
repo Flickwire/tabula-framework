@@ -8,7 +8,13 @@ class MySqlAdapter implements AbstractAdapter {
     private $resource;
     private $statement;
 
-    public function __construct(string $host, string $database, string $user, string $password, string $port="3306", string $charset="utf8mb4"){
+    public function __construct(string $host, string $database, string $user, string $password, ?string $port="3306", ?string $charset="utf8mb4"){
+        if ($port === null){
+            $port = "3306";
+        }
+        if ($charset === null){
+            $charset = "utf8mb4";
+        }
         $dsn = "mysql:host=$host;dbname=$database;port=$port;charset=$charset";
         $options = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
