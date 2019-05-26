@@ -36,7 +36,6 @@ class MySqlAdapter implements AbstractAdapter {
                 $this->statement->closeCursor();
             }
             if (!($this->statement instanceof PDOStatement) || $this->statement->queryString != $query){
-                echo 'preparing new statement<br/>';
                 $this->statement = $this->resource->prepare($query);
             }
             //Set type for typed parameters
