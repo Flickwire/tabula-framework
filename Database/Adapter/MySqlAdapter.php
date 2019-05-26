@@ -41,7 +41,7 @@ class MySqlAdapter implements AbstractAdapter {
             //Set type for typed parameters
             foreach($args as $i => $arg){
                 if ($i === 0) continue;
-                switch($types[i-1]){
+                switch($types[$i-1]){
                     case '?i':
                         $type = PDO::PARAM_INT;
                         break;
@@ -65,7 +65,7 @@ class MySqlAdapter implements AbstractAdapter {
     private function detectTypes(string $query): array{
         $pattern = '/\?[sibf]?/';
         $indicators = array();
-        \preg_match_all($pattern,$query,$matches);
+        \preg_match_all($pattern,$query,$indicators);
         $query = \preg_replace($pattern,'?',$query);
         return array($query,$indicators);
     }

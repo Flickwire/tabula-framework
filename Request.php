@@ -32,7 +32,7 @@ class Request {
         $base = $this->tabula->registry->getUriBase();
         $requestUri = $_SERVER['REQUEST_URI'];
         if(\strncmp($base,$requestUri,strlen($base)) === 0){
-            return \str_replace(DS,'/',\substr($projectbase,\strlen($docroot))); //Find base path of project
+            return \str_replace(DS,'/',\substr($requestUri,\strlen($base))); //Find base path of project
         }
         throw new \Exception("How did you get here? I have no idea where to route you. Go away.");
     }
