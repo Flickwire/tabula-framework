@@ -30,6 +30,10 @@ class Tabula {
                 throw new \Exception("Unsupported database type {$dbconf['type']}");
         }
 
+        // Do Database setup
+        require_once('setup.php');
+        tabula_do_setup($this,$dbconf['database']);
+
         $this->registry->setDebug(isset($this->config->debug) && $this->config->debug);
 
         //Create the request object
