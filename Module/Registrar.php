@@ -17,7 +17,7 @@ class Registrar {
     private $modules;
     private $tabula;
     private $db;
-    private $table = 'tabula_modules';
+    private $table = 'tb_modules';
 
     public function __construct(){
         $this->modules = array();
@@ -46,7 +46,7 @@ class Registrar {
         foreach ($this->modules as $module){
             if ($module->installable){
                 try {
-                    $dbModule = $this->db->query("SELECT `module_id`,`module`,`version` FROM `{$this->table}` WHERE `module` = ?s LIMIT 1",$module->name)->fetch();
+                    $dbModule = $this->db->query("SELECT module, version FROM {$this->table} WHERE module = ?s LIMIT 1",$module->name)->fetch();
                     if (!$dbModule || $dbModule['version'] < $module->version){
                         //TODO: Find and execute install and upgrade scripts
     

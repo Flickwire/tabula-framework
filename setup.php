@@ -9,7 +9,7 @@
 function tabula_do_setup(\Tabula\Tabula $tabula, string $dbname){
     $db = $tabula->db;
 
-    $isSetup = $db->query('SELECT COUNT(*) FROM information_schema.TABLES where (TABLE_SCHEMA=?s) AND (TABLE_NAME=?s)',$dbname,'tb_core')->fetch()[0];
+    $isSetup = current($db->query('SELECT COUNT(*) FROM information_schema.TABLES where (TABLE_SCHEMA=?s) AND (TABLE_NAME=?s)',$dbname,'tb_core')->fetch());
 
     if(!$isSetup){
         initial_setup($tabula);

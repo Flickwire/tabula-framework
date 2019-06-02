@@ -5,9 +5,10 @@ class Registry {
     private $data;
     private $tabula;
 
-    public function __construct($tabula){
+    public function __construct(Tabula $tabula){
         $this->tabula = $tabula;
         $this->data = array();
+        $this->prefill();
     }
 
     /**
@@ -22,7 +23,7 @@ class Registry {
         if(\strncmp($docroot,$projectbase,strlen($docroot)) === 0){
             $uribase = \str_replace(DS,'/',\substr($projectbase,\strlen($docroot))); //Find base path of project
         }
-        $this->setFsBase($projectbase);
+        $this->setFsBase($projectbase.'/');
         $this->setUriBase($uribase);
     }
 

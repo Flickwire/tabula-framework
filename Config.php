@@ -23,7 +23,7 @@ class Config{
         return $this->__get($name);
     }
 
-    public function has(string $name){
+    public function has(string $name): bool{
         return $this->__isset($name);
     }
 }

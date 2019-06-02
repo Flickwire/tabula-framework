@@ -72,6 +72,7 @@ class MySqlAdapter implements AbstractAdapter {
         $pattern = '/\?[sibf]?/';
         $indicators = array();
         \preg_match_all($pattern,$query,$indicators);
+        $indicators = $indicators[0];
         $query = \preg_replace($pattern,'?',$query);
         return array($query,$indicators);
     }
