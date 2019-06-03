@@ -33,7 +33,6 @@ class Tabula {
         }
 
         // Do Database setup
-        require_once('setup.php');
         tabula_do_setup($this,$dbconf['database']);
 
         $this->registry->setDebug(isset($this->config->debug) && $this->config->debug);

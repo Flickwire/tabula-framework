@@ -12,6 +12,7 @@
     "autoload": {
         "psr-4": {
             "Tabula\\": "src/"
-        }
+        },
+        "files": ["src/setup.php"]
     }
 }
