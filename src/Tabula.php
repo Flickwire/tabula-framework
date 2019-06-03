@@ -33,11 +33,14 @@ class Tabula {
         }
 
         // Do Database setup
-        tabula_do_setup($this,$dbconf['database']);
+        \tabula_do_setup($this,$dbconf['database']);
 
         $this->registry->setDebug(isset($this->config->debug) && $this->config->debug);
 
         //Create the request object
         $this->registry->setRequest(new Request($this));
+
+        //Last step, hand off to router
+        $this->router->doRouting();
     }
 }
