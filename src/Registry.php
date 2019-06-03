@@ -23,7 +23,8 @@ class Registry {
         if(\strncmp($docroot,$projectbase,strlen($docroot)) === 0){
             $uribase = \str_replace(DS,'/',\substr($projectbase,\strlen($docroot))); //Find base path of project
         }
-        $this->setFsBase($projectbase.'/');
+        $this->setFsBase($projectbase.DS);
+        $this->setModulesDir($projectbase.DS.'modules'.DS);
         $this->setUriBase($uribase);
     }
 
@@ -34,7 +35,7 @@ class Registry {
      */
     public function __call($name, $arguments){
         $method = \substr($name,0,3);
-        $key = \str_tokenize(\substr($name,3));
+        $key = $this->str_tokenize(\substr($name,3));
         switch($method){
             case 'has':
                 if (\array_key_exists($key,$this->data)){
@@ -57,4 +58,8 @@ class Registry {
                 throw new \Exception("Registry does not support the method $name");
         }
     }
+
+    private function str_tokenize($input){
+        return \strtolower(\ltrim(\preg_replace('/[A-Z]([A-Z](?![a-z]))*/', '_$0', $input), '_'));
+     }
 }

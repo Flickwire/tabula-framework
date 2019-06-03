@@ -1,0 +1,17 @@
+{
+    "name": "polymathic/tabula",
+    "description": "Tabula Framework",
+    "license": "Proprietary",
+    "authors": [
+        {
+            "name": "Skye",
+            "email": "skye@domos.me.uk"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Tabula\\": "src/"
+        }
+    }
+}

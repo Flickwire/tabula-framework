@@ -1,6 +1,8 @@
 <?php
 namespace Tabula;
 
+define('DS',DIRECTORY_SEPARATOR);
+
 /**
  * The main Tabula object, use this to get the registry/router etc
  * 
