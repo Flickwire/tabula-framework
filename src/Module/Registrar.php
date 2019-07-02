@@ -22,6 +22,9 @@ class Registrar {
     public function __construct(){
         $this->modules = array();
         $this->db = $this->tabula->db;
+        $this->discoverModules();
+        $this->installModules();
+        $this->registerRoutes();
     }
 
     /**
@@ -39,28 +42,28 @@ class Registrar {
      * @author Skye
      */
     private function installModules(){
-        //Store these to update the database after installing all modules
-        //Allows prepared statements to operate more easily
-        $installed = array();
-        $updated = array();
+
+        //Map installed versions of each module
+        $modulesInstalled = $this->db->query("SELECT module, version FROM {$this->table};")->fetchAll();
+        $moduleVersions = array();
+        foreach ($modulesInstalled as $module) {
+            $moduleVersions[$module['module']] = $module['version'];
+        }
+
+        //Pass installed version to module's upgrade/install script
+        //Will pass empty string if module has not been installed yet
+        //TODO: seperate update/install new SQL queries to make
+        //prepared statements run more efficiently
         foreach ($this->modules as $module){
-            if ($module->installable){
-                try {
-                    $dbModule = $this->db->query("SELECT module, version FROM {$this->table} WHERE module = ?s LIMIT 1",$module->name)->fetch();
-                    if (!$dbModule || $dbModule['version'] < $module->version){
-                        //TODO: Find and execute install and upgrade scripts
-    
-                    }
-                } catch (\Exception $e) {
-                    //TODO: Do something with modules which fail to install or update
+            $version = isset($moduleVersions[$module->getName()]) ? $moduleVersions[$module->getName()] : "";
+            $newVersion = $module->upgrade($version);
+            if ($newVersion !== $version){
+                if ($version !== ""){
+                    $this->db->query("UPDATE {$this->table} SET version = ?s WHERE module = ?s;", $newVersion, $module->getName());
+                } else {
+                    $this->db->query("INSERT INTO {$this->table} (module, version) VALUES (?s, ?s);", $module->getName(), $newVersion);
                 }
             }
-        }
-        foreach ($installed as $module){
-            $this->db->query("INSERT INTO `{$this->table}` (`module`,`version`) VALUES (?s, ?s)",$module['name'],$module['version']);
-        }
-        foreach ($updated as $module){
-            $this->db->query("UPDATE `{$this->table}` SET `version` = ?s WHERE `module` = ?s",$module['version'],$module['name']);
         }
     }
 
