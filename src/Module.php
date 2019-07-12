@@ -7,7 +7,7 @@ namespace Tabula;
  * 
  * @author Skye
  */
-abstract class Module{
+interface Module{
     /**
      * Should upgrade the module to the latest version,
      * performing any required database upgrades,
@@ -18,7 +18,7 @@ abstract class Module{
      * return its new version, as this will be passed 
      * back to the module next time it is loaded.
      */
-    public function upgrade(string version): string;
+    public function upgrade(string $version): string;
 
     /**
      * Register all available routes for this module
@@ -28,17 +28,23 @@ abstract class Module{
      * appropriately (i.e. please don't register parameters
      * where a query string would be more appropriate)
      * 
-     * Please note request paramets are not yet implemented.
+     * Please note request parameters are not yet implemented.
      */
-    public function registerRoutes(Router router): boolean;
+    public function registerRoutes(Router $router): void;
+
+    /**
+     * This is where you can grab a Tabula reference,
+     * and, if you need to, throw yourself into the
+     * registry
+     */
+    public function preInit(Tabula $tabula): void;
 
     /**
      * This will be called *if* a given request is one 
      * that should be routed to this module; or if
      * a previously called module requires this module.
-     * If required, a reference to Tabula can be pulled here.
      */
-    public function init(Tabula tabula): void;
+    public function init(): void;
 
     /**
      * Return your module name here. 

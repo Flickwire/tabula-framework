@@ -39,7 +39,7 @@ class Tabula {
 
         //Create the request object
         $this->registry->setRequest(new Request($this));
-
+        echo(password_hash("polymathic",PASSWORD_ARGON2ID));
         //Last step, hand off to router
         $this->router->doRouting();
     }

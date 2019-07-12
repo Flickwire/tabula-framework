@@ -25,6 +25,7 @@ class Registrar {
         $this->discoverModules();
         $this->installModules();
         $this->registerRoutes();
+        $this->preInitModules();
     }
 
     /**
@@ -33,7 +34,11 @@ class Registrar {
      * @author Skye
      */
     private function discoverModules(){
-
+        $tabula = $this->tabula;
+        foreach (glob("modules/*/registermodule.php") as $moduleFile){
+            include_once($moduleFile);
+            $this->modules[] = $module;
+        }
     }
 
     /**
@@ -52,7 +57,7 @@ class Registrar {
 
         //Pass installed version to module's upgrade/install script
         //Will pass empty string if module has not been installed yet
-        //TODO: seperate update/install new SQL queries to make
+        //TODO: separate update/install new SQL queries to make
         //prepared statements run more efficiently
         foreach ($this->modules as $module){
             $version = isset($moduleVersions[$module->getName()]) ? $moduleVersions[$module->getName()] : "";
@@ -78,4 +83,14 @@ class Registrar {
         }
     }
 
+    /**
+     * Run preinit for each module
+     * 
+     * @author Skye
+     */
+    private function preInitModules(){
+        foreach ($this->modules as $module){
+            $module->preInit($this->tabula);
+        }
+    }
 }

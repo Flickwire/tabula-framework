@@ -25,7 +25,7 @@ class Route {
      * 
      * @author Skye
      */
-    public function isMatch(string $url): boolean {
+    public function isMatch(string $url): bool {
         return 0 === strncmp($url,$this->path,strlen($this->path));
     }
 
@@ -35,12 +35,12 @@ class Route {
      * @author Skye
      */
     public function run(){
-        if (!class_exists($this->controller)){
-            throw new \ErrorException("Class {$this->controller} does not exist");
+        if (!is_object($this->controller)){
+            throw new \ErrorException("Invalid controller");
         }
-        if (!method_exists(new $this->controller, $this->method)){
-            throw new \ErrorException("Class {$this->controller} has no method {$this->method}");
+        if (!method_exists($this->controller, $this->method)){
+            throw new \ErrorException("Controller has no method {$this->method}");
         }
-        return call_user_func_array([new $this->controller,$this->method],[]);
+        return call_user_func_array([$this->controller,$this->method],[]);
     }
 }
