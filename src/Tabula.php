@@ -1,6 +1,8 @@
 <?php
 namespace Tabula;
 
+use Tabula\Module\Registrar;
+
 define('DS',DIRECTORY_SEPARATOR);
 
 /**
@@ -39,7 +41,10 @@ class Tabula {
 
         //Create the request object
         $this->registry->setRequest(new Request($this));
-        echo(password_hash("polymathic",PASSWORD_ARGON2ID));
+
+        //Register modules
+        $this->registry->setModuleRegistrar(new Registrar($this));
+
         //Last step, hand off to router
         $this->router->doRouting();
     }

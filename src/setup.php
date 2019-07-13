@@ -30,5 +30,5 @@ function initial_setup(\Tabula\Tabula $tabula){
     $db->query('CREATE TABLE tb_usergroups_permissions (id BIGINT AUTO_INCREMENT NOT NULL, usergroup BIGINT NOT NULL, permission NVARCHAR(255), CONSTRAINT PK PRIMARY KEY (id), CONSTRAINT FK_groupperms_usergroup FOREIGN KEY (usergroup) REFERENCES tb_usergroups(id));');
 
     $db->query('INSERT INTO tb_core VALUES ("version","1.0");');
-    $db->query('INSERT INTO tb_users VALUES ("info@polymathic.ltd","","Polymathic Ltd.");')
+    $db->query('INSERT INTO tb_users (email, passwd, displayname) VALUES ("info@polymathic.ltd","$argon2id$v=19$m=1024,t=2,p=2$UUxDd2xleVU2cUlqdEVwVQ$nCqeHS2fTuNPn9uoYliSbl8Epp/R8bEGoTP6w6qZdSo","Polymathic Ltd.");');
 }

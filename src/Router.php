@@ -33,7 +33,7 @@ class Router {
      */
     public function resolve(string $url): ?Router\Route {
         foreach ($this->routes as $route){
-            if ($route->matches($url)){
+            if ($route->isMatch($url)){
                 return $route;
             }
         }

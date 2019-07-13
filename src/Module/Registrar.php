@@ -19,8 +19,9 @@ class Registrar {
     private $db;
     private $table = 'tb_modules';
 
-    public function __construct(){
+    public function __construct(\Tabula\Tabula $tabula){
         $this->modules = array();
+        $this->tabula = $tabula;
         $this->db = $this->tabula->db;
         $this->discoverModules();
         $this->installModules();
@@ -35,7 +36,7 @@ class Registrar {
      */
     private function discoverModules(){
         $tabula = $this->tabula;
-        foreach (glob("modules/*/registermodule.php") as $moduleFile){
+        foreach (glob($this->tabula->registry->getModulesDir().'*'.DS.'src'.DS.'registermodule.php') as $moduleFile){
             include_once($moduleFile);
             $this->modules[] = $module;
         }
