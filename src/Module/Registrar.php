@@ -27,6 +27,7 @@ class Registrar {
         $this->installModules();
         $this->registerRoutes();
         $this->preInitModules();
+        $this->initModules();
     }
 
     /**
@@ -34,7 +35,7 @@ class Registrar {
      * 
      * @author Skye
      */
-    private function discoverModules(){
+    private function discoverModules(): void{
         $tabula = $this->tabula;
         foreach (glob($this->tabula->registry->getModulesDir().'*'.DS.'src'.DS.'registermodule.php') as $moduleFile){
             include_once($moduleFile);
@@ -47,7 +48,7 @@ class Registrar {
      * 
      * @author Skye
      */
-    private function installModules(){
+    private function installModules(): void{
 
         //Map installed versions of each module
         $modulesInstalled = $this->db->query("SELECT module, version FROM {$this->table};")->fetchAll();
@@ -78,7 +79,7 @@ class Registrar {
      * 
      * @author Skye
      */
-    private function registerRoutes(){
+    private function registerRoutes(): void{
         foreach ($this->modules as $module){
             $module->registerRoutes($this->tabula->router);
         }
@@ -89,9 +90,20 @@ class Registrar {
      * 
      * @author Skye
      */
-    private function preInitModules(){
+    private function preInitModules(): void{
         foreach ($this->modules as $module){
             $module->preInit($this->tabula);
+        }
+    }
+
+    /**
+     * Run init for each module
+     * 
+     * @author Skye
+     */
+    private function initModules(): void{
+        foreach ($this->modules as $module){
+            $module->init();
         }
     }
 }

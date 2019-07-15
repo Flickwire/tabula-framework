@@ -40,9 +40,8 @@ interface Module{
     public function preInit(Tabula $tabula): void;
 
     /**
-     * This will be called *if* a given request is one 
-     * that should be routed to this module; or if
-     * a previously called module requires this module.
+     * This will be called on every request, for every module.
+     * Please don't abuse this and do expensive things here.
      */
     public function init(): void;
 
