@@ -63,7 +63,7 @@ class Registrar {
         //prepared statements run more efficiently
         foreach ($this->modules as $module){
             $version = isset($moduleVersions[$module->getName()]) ? $moduleVersions[$module->getName()] : "";
-            $newVersion = $module->upgrade($version);
+            $newVersion = $module->upgrade($version,$this->db);
             if ($newVersion !== $version){
                 if ($version !== ""){
                     $this->db->query("UPDATE {$this->table} SET version = ?s WHERE module = ?s;", $newVersion, $module->getName());
