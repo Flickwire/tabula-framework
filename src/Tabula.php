@@ -12,12 +12,17 @@ define('DS',DIRECTORY_SEPARATOR);
  */
 class Tabula {
     public $registry;
+    public $session;
     public $router;
     public $db;
     
     private $config;
 
     public function __construct() {
+        //Start the PHP session
+        \session_start();
+
+        $this->session = new Session();
         $this->registry = new Registry($this);
         $this->router = new Router($this);
         $this->config = new Config(\file_get_contents($this->registry->getFsBase() . 'config.json'));
