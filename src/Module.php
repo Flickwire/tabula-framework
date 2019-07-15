@@ -1,6 +1,8 @@
 <?php
 namespace Tabula;
 
+use Tabula\Database\Adapter\AbstractAdapter;
+
 /**
  * Outlines a basic Tabula module
  * Extend this when creating modules
@@ -18,7 +20,7 @@ interface Module{
      * return its new version, as this will be passed 
      * back to the module next time it is loaded.
      */
-    public function upgrade(string $version): string;
+    public function upgrade(string $version, AbstractAdapter $db): string;
 
     /**
      * Register all available routes for this module
