@@ -81,6 +81,10 @@ class MySqlAdapter implements AbstractAdapter {
         return $this->resource->quote($value);
     }
 
+    public function lastInsertId(): string{
+        return $this->resource->lastInsertId();
+    }
+
     public function close(){
         $this->statement->closeCursor();
         $this->statement = null;
