@@ -12,12 +12,14 @@ class Request {
         return \array_key_exists($key, $_POST) || \array_key_exists($key, $_GET);
     }
 
-    public function get(string $key){
+    public function get(string $key, bool $post = false){
         if (\array_key_exists($key,$_POST)){
             return $_POST[$key];
         }
-        if (\array_key_exists($key,$_GET)){
-            return $_GET[$key];
+        if (!$post){
+            if (\array_key_exists($key,$_GET)){
+                return $_GET[$key];
+            }
         }
         return null;
     }
@@ -35,5 +37,29 @@ class Request {
             return \str_replace(DS,'/',\substr($requestUri,\strlen($base))); //Find base path of project
         }
         throw new \Exception('How did you get here? I have no idea where to route you. Go away.');
+    }
+
+    /**
+     * Get a link with specific query parameters added or removed
+     * 
+     * @author Skye
+     */
+    public function getSelf(array $insert = [], array $remove = [], bool $absolute = false): string{
+        $query = $_GET;
+        //remove things
+        $query = \array_diff_key($query, \array_flip($remove));
+        //add things
+        $query = \array_merge($query, $insert);
+        $host = $absolute ? ('//' . $_SERVER['HTTP_HOST']) : '';
+        return $host . \strtok($_SERVER["REQUEST_URI"],'?') . '?' . \http_build_query($query);
+    }
+
+    /**
+     * Check the request method
+     * 
+     * @author Skye
+     */
+    public function getMethod(): string{
+        return $_SERVER['REQUEST_METHOD'];
     }
 }
