@@ -34,7 +34,33 @@ class Session {
         }
     }
 
-    private function str_tokenize($input){
+    /**
+     * Add session error to be displayed on next page
+     * 
+     * @author Skye
+     */
+    public function addError(string $error): void{
+        if(!isset($_SESSION['ERRORS'])){
+            $_SESSION['ERRORS'] = [];
+        }
+        $_SESSION['ERRORS'][] = $error;
+    }
+
+    /**
+     * Get all errors, clearing them
+     */
+    public function getErrors(): array{
+        $errors = [];
+        if(isset($_SESSION['ERRORS'])){
+            if(\is_array($_SESSION['ERRORS'])){
+                $errors = $_SESSION['ERRORS'];
+            }
+            unset($_SESSION['ERRORS']);
+        }
+        return $errors;
+    }
+
+    private function str_tokenize(string $input): string{
         return \strtolower(\ltrim(\preg_replace('/[A-Z]([A-Z](?![a-z]))*/', '_$0', $input), '_'));
     }
 }
