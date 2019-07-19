@@ -27,6 +27,7 @@ class Tabula {
         $this->registry = new Registry($this);
         $this->router = new Router($this);
         $this->config = new Config(\file_get_contents($this->registry->getFsBase() . 'config.json'));
+        $this->registry->setDebug(isset($this->config->debug) && $this->config->debug);
         $this->renderer = new Renderer($this);
 
         $this->renderer->registerTemplateDir(__DIR__.DS.'templates');
@@ -45,8 +46,6 @@ class Tabula {
 
         // Do Database setup
         \tabula_do_setup($this,$dbconf['database']);
-
-        $this->registry->setDebug(isset($this->config->debug) && $this->config->debug);
 
         //Create the request object
         $this->registry->setRequest(new Request($this));
