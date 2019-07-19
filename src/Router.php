@@ -1,6 +1,8 @@
 <?php
 namespace Tabula;
 
+use Tabula\Renderer\Page;
+
 /**
  * Tabula Router
  * Handles URL resolution
@@ -51,9 +53,12 @@ class Router {
         if ($route instanceof Router\Route){
             $route->run();
         } else {
-            //TODO: Handle 404 Better
-            header("HTTP/1.0 404 Not Found");
-            echo "<html><head><title>File Not Found</title></head><body><h1>404 - File Not Found<h1></body></html>";
+            $this->do404();
         }
+    }
+
+    private function do404() {
+        $page = new Page($this->tabula, "errors/404.php");
+        $page->render();
     }
 }

@@ -25,6 +25,9 @@ class Registry {
         }
         $this->setFsBase($projectbase.DS);
         $this->setModulesDir($projectbase.DS.'modules'.DS);
+        $this->setCacheDir($projectbase.DS.'cache'.DS);
+        $this->setTemplateDir($projectbase.DS.'templates'.DS);
+        $this->setTemplateCacheDir($projectbase.DS.'cache'.DS.'templates'.DS);
         $this->setUriBase($uribase);
     }
 
