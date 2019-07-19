@@ -1,6 +1,8 @@
 <?php
 namespace Tabula\Renderer;
 
+use Tabula\Tabula;
+
 /**
  * Use this to render a page from a template
  * 
@@ -12,6 +14,7 @@ class Page {
     private $vars = [];
 
     public function __construct(Tabula $tabula, string $template){
+        $this->tabula = $tabula;
         $this->template = $template;
     }
 
