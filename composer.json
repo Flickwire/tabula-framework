@@ -8,7 +8,9 @@
             "email": "skye@domos.me.uk"
         }
     ],
-    "require": {},
+    "require": {
+        "twig/twig": "^2.0"
+    },
     "autoload": {
         "psr-4": {
             "Tabula\\": "src/"
