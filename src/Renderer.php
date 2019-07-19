@@ -19,6 +19,10 @@ class Renderer {
         $cacheDir = $tabula->registry->getTemplateCacheDir();
         $debug = $tabula->registry->getDebug();
 
+        if ($debug){
+            $cacheDir = false;
+        }
+
         //Main template dir for a specific project.
         //Will take precedent over paths added by modules
         $this->loader = new \Twig\Loader\FilesystemLoader($templateDir);
@@ -26,6 +30,8 @@ class Renderer {
             'cache' => $cacheDir,
             'debug' => $debug,
         ]);
+
+        $this->twig->addGlobal('baseurl','//' . $_SERVER['HTTP_HOST'] .$tabula->registry->getUriBase());
     }
 
     public function registerTemplateDir(string $path): void{
@@ -33,6 +39,8 @@ class Renderer {
     }
 
     public function render(string $template, array $vars): void{
+        $template = str_replace('/',DS,$template);
+        
         echo $this->twig->render($template, $vars);
     }
 }
