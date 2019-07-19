@@ -58,7 +58,7 @@ class Router {
     }
 
     private function do404() {
-        $page = new Page($this->tabula, "errors/404.php");
+        $page = new Page($this->tabula, "errors/404.html");
         $page->render();
     }
 }
