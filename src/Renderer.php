@@ -1,6 +1,8 @@
 <?php
 namespace Tabula;
 
+use ArrayObject;
+
 /**
  * Experimental twig renderer
  * Might be removed later, idk yet
@@ -12,8 +14,11 @@ class Renderer {
     private $twig;
     private $loader;
 
+    private $scripts;
+
     public function __construct(Tabula $tabula){
         $this->tabula = $tabula;
+        $this->scripts = new ArrayObject();
 
         $templateDir = $tabula->registry->getTemplateDir();
         $cacheDir = $tabula->registry->getTemplateCacheDir();
@@ -30,17 +35,34 @@ class Renderer {
             'cache' => $cacheDir,
             'debug' => $debug,
         ]);
+        $this->twig->addExtension(new \Twig\Extension\DebugExtension());
 
         $this->twig->addGlobal('baseurl','//' . $_SERVER['HTTP_HOST'] .$tabula->registry->getUriBase());
+        $this->twig->addGlobal('request',$tabula->registry->getRequest());
     }
 
     public function registerTemplateDir(string $path): void{
         $this->loader->addPath($path);
     }
 
-    public function render(string $template, array $vars): void{
+    public function registerScriptDir(string $path): void{
+        $this->loader->addPath($path,'scripts');
+    }
+
+    public function addScript(string $script): void{
+        $this->scripts[] = '@scripts/' . $script;
+    }
+
+    public function render(string $template, array $vars, bool $toString = false): ?string{
         $template = str_replace('/',DS,$template);
+
+        $vars['___includeScripts'] = $this->scripts;
         
-        echo $this->twig->render($template, $vars);
+        $output = $this->twig->render($template, $vars);
+
+        if ($toString) return $output;
+
+        echo $output;
+        return null;
     }
 }
