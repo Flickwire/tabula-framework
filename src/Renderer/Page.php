@@ -22,19 +22,19 @@ class Page {
         return \array_key_exists($key, $this->vars);
     }
 
-    public function get(string $key): mixed{
+    public function get(string $key){
         if (\array_key_exists($key,$this->vars)){
             return $this->vars[$key];
         }
         return null;
     }
 
-    public function set(string $key, mixed $value): void{
+    public function set(string $key, $value): void{
         $this->vars[$key] = $value;
     }
 
-    public function render(){
-        $this->tabula->renderer->render($this->template, $this->vars);
+    public function render(bool $toString = false): ?string{
+        return $this->tabula->renderer->render($this->template, $this->vars, $toString);
     }
 
 }
