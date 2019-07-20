@@ -28,9 +28,6 @@ class Tabula {
         $this->router = new Router($this);
         $this->config = new Config(\file_get_contents($this->registry->getFsBase() . 'config.json'));
         $this->registry->setDebug(isset($this->config->debug) && $this->config->debug);
-        $this->renderer = new Renderer($this);
-
-        $this->renderer->registerTemplateDir(__DIR__.DS.'templates');
 
         if(!isset($this->config->database)){
             throw new \Exception("No database details found in config");
@@ -49,6 +46,10 @@ class Tabula {
 
         //Create the request object
         $this->registry->setRequest(new Request($this));
+
+        //Set up renderer
+        $this->renderer = new Renderer($this);
+        $this->renderer->registerTemplateDir(__DIR__.DS.'templates');
 
         //Register modules
         $this->registry->setModuleRegistrar(new Registrar($this));
