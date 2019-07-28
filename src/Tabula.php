@@ -53,6 +53,7 @@ class Tabula {
         //Set up renderer
         $this->renderer = new Renderer($this);
         $this->renderer->registerTemplateDir(__DIR__.DS.'templates');
+        $this->renderer->registerScriptDir(__DIR__.DS.'scripts');
 
         //Register modules
         $this->registry->setModuleRegistrar(new Registrar($this));

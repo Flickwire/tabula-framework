@@ -37,7 +37,7 @@ class Admin {
     }
 
     public function render(): void{
-        $page = new Page($this->tabula, 'modules/admin/admin.html');
+        $page = new Page($this->tabula, 'admin/admin.html');
         $this->tabula->renderer->addScript('admin/admin.js');
 
         $groups = $this->prepareGroups();
