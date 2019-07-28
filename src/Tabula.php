@@ -55,6 +55,9 @@ class Tabula {
         $this->renderer->registerTemplateDir(__DIR__.DS.'templates');
         $this->renderer->registerScriptDir(__DIR__.DS.'scripts');
 
+        //Load admin area
+        $this->registry->setAdminPanel(new Admin($this));
+
         //Register modules
         $this->registry->setModuleRegistrar(new Registrar($this));
 
