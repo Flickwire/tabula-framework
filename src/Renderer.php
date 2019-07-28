@@ -39,6 +39,8 @@ class Renderer {
 
         $this->twig->addGlobal('baseurl','//' . $_SERVER['HTTP_HOST'] .$tabula->registry->getUriBase());
         $this->twig->addGlobal('request',$tabula->registry->getRequest());
+        $this->twig->addGlobal('lang','en');
+        $this->twig->addGlobal('sitename',$tabula->registry->getSiteName());
     }
 
     public function registerTemplateDir(string $path): void{

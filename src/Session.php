@@ -60,6 +60,32 @@ class Session {
         return $errors;
     }
 
+    /**
+     * Add session message to be displayed on next page
+     * 
+     * @author Skye
+     */
+    public function addMessage(string $message): void{
+        if(!isset($_SESSION['MESSAGES'])){
+            $_SESSION['MESSAGES'] = [];
+        }
+        $_SESSION['MESSAGES'][] = $message;
+    }
+
+    /**
+     * Get all errors, clearing them
+     */
+    public function getMessages(): array{
+        $messages = [];
+        if(isset($_SESSION['MESSAGES'])){
+            if(\is_array($_SESSION['MESSAGES'])){
+                $messages = $_SESSION['MESSAGES'];
+            }
+            unset($_SESSION['MESSAGES']);
+        }
+        return $messages;
+    }
+
     private function str_tokenize(string $input): string{
         return \strtolower(\ltrim(\preg_replace('/[A-Z]([A-Z](?![a-z]))*/', '_$0', $input), '_'));
     }

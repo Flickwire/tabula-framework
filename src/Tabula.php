@@ -41,6 +41,9 @@ class Tabula {
                 throw new \Exception("Unsupported database type {$dbconf['type']}");
         }
 
+        //Register site name
+        $this->registry->setSiteName($this->config->name);
+
         // Do Database setup
         \tabula_do_setup($this,$dbconf['database']);
 
