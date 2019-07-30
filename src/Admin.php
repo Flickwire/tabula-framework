@@ -1,8 +1,7 @@
 <?php 
 namespace Tabula;
 
-use Tabula\Router\Route;
-use Tabula\Database\Adapter\AbstractAdapter;
+use Tabula\Router\SecureRoute;
 use Tabula\Renderer\Page;
 
 class Admin {
@@ -17,11 +16,7 @@ class Admin {
     }
 
     public function init(): void{
-        if(class_exists("\Tabula\Modules\Auth\SecureRoute")){
-            $this->tabula->router->register(new \Tabula\Modules\Auth\SecureRoute($this->tabula,"/admin",$this,"render"));
-        } else {
-            $this->tabula->router->register(new Route("/admin",$this,"render"));
-        }
+        $this->tabula->router->register(new SecureRoute($this->tabula,"/admin",$this,"render"));
     }
 
     public function registerPane(AdminPane $pane, ?string $group = null): void{

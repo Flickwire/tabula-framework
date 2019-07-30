@@ -1,0 +1,30 @@
+{{ include("modules/auth/include/head.html") }}
+<div class="ui middle aligned center aligned grid" style="height: 100%;">
+    <div class="eleven wide mobile eight wide tablet six wide computer five wide large screen four wide widescreen column">
+        <h1 class="ui heading">Login</h1>
+        {% if errors %}
+        <form class="ui large error form" method="POST">
+        {% else %}
+        <form class="ui large form" method="POST">
+        {% endif %}
+            <div class="ui piled segment">
+                <div class="ui field">
+                    <input name="email" type="text" placeholder="example@example.com"/>
+                </div>
+                <div class="ui field">
+                    <input name="password" type="password" placeholder="password"/>
+                </div>
+                <div class="ui button submit primary">Login</div>
+                <a class="ui button" href="{{ urlRegister }}">Register</a>
+            </div>
+            <div class="ui error message">
+                <ul class="list">
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        </form>
+    </div>
+</div>
+{{ include("modules/auth/include/foot.html") }}

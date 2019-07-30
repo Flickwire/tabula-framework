@@ -58,6 +58,9 @@ class Tabula {
         //Load admin area
         $this->registry->setAdminPanel(new Admin($this));
 
+        //Load auth handler
+        $this->registry->setAuthHandler(new Auth($this));
+
         //Register modules
         $this->registry->setModuleRegistrar(new Registrar($this));
 
