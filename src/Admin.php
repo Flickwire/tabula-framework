@@ -14,10 +14,7 @@ class Admin {
 
     public function __construct(Tabula $tabula){
         $this->tabula = $tabula;
-    }
-
-    public function init(): void{
-        $this->tabula->router->register(new SecureRoute($this->tabula,"/admin",$this,"render"));
+        $tabula->router->register(new SecureRoute($tabula,"/admin",$this,"render"));
     }
 
     public function registerPane(AdminPane $pane, ?string $group = null): void{
