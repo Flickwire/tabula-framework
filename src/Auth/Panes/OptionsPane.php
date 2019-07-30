@@ -10,7 +10,7 @@ class OptionsPane extends AdminPane {
     //private $optionsModel;
 
     public function render(): string{
-        $page = new Page($this->tabula,"modules/admin/panes/auth/options.html");
+        $page = new Page($this->tabula,"admin/panes/auth/options.html");
         $this->request = $this->tabula->registry->getRequest();
         //$this->optionsModel = new Options($tabula->db);
 

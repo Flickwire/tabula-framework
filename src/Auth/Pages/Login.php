@@ -1,9 +1,9 @@
 <?php
-namespace Tabula\Modules\Auth\Pages;
+namespace Tabula\Auth\Pages;
 
 use Tabula\Tabula;
-use Tabula\Modules\Auth\Auth;
-use Tabula\Modules\Auth\Models\Users;
+use Tabula\Auth;
+use Tabula\Auth\Models\Users;
 use Tabula\Renderer\Page;
 
 class Login {
@@ -21,7 +21,7 @@ class Login {
         $request = $this->tabula->registry->getRequest();
         $session = $this->tabula->session;
 
-        $page = new Page($this->tabula, 'modules/auth/login.html');
+        $page = new Page($this->tabula, 'auth/login.html');
         $this->tabula->renderer->addScript('auth/login.js');
 
         if ($request->getMethod() === 'POST') {

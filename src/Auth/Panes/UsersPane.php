@@ -26,7 +26,7 @@ class UsersPane extends AdminPane {
     }
 
     private function listUsers(): string{
-        $page = new Page($this->tabula,"modules/admin/panes/auth/listUsers.html");
+        $page = new Page($this->tabula,"admin/panes/auth/listUsers.html");
         $this->tabula->renderer->addScript('auth/listUsers.js');
 
         $users = $this->userModel->getUsers();
@@ -36,7 +36,7 @@ class UsersPane extends AdminPane {
     }
 
     private function createUser(): string{
-        $page = new Page($this->tabula,"modules/admin/panes/auth/newUser.html");
+        $page = new Page($this->tabula,"admin/panes/auth/newUser.html");
         $this->tabula->renderer->addScript('auth/newUser.js');
 
         if ($this->request->getMethod() === 'POST'){
@@ -61,7 +61,7 @@ class UsersPane extends AdminPane {
     }
 
     private function editUser(): string{
-        $page = new Page($this->tabula,"modules/admin/panes/auth/newUser.html");
+        $page = new Page($this->tabula,"admin/panes/auth/newUser.html");
         $this->tabula->renderer->addScript('auth/editUser.js');
 
         $id = $this->request->get('id');

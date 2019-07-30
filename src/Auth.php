@@ -2,12 +2,12 @@
 namespace Tabula;
 
 use Tabula\Router\Route;
-use Tabula\Database\Adapter\AbstractAdapter;
 use Tabula\Auth\Pages\Login;
 use Tabula\Auth\Pages\Register;
 
 use Tabula\Auth\Panes\UsersPane;
 use Tabula\Auth\Panes\OptionsPane;
+use Tabula\Auth\User;
 
 class Auth {
     private $user;

@@ -22,7 +22,7 @@ class Register {
     public function render() {
         $session = $this->tabula->session;
 
-        $page = new Page($this->tabula, 'modules/auth/register.html');
+        $page = new Page($this->tabula, 'auth/register.html');
         $this->tabula->renderer->addScript('auth/register.js');
 
         $loginUrl = $this->tabula->registry->getUriBase().'/login';

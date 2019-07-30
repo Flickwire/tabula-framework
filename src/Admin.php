@@ -3,6 +3,7 @@ namespace Tabula;
 
 use Tabula\Router\SecureRoute;
 use Tabula\Renderer\Page;
+use Tabula\Admin\AdminPane;
 
 class Admin {
     
