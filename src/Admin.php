@@ -14,7 +14,7 @@ class Admin {
 
     public function __construct(Tabula $tabula){
         $this->tabula = $tabula;
-        $tabula->router->register(new SecureRoute($tabula,"/admin",$this,"render"));
+        $this->tabula->router->register(new SecureRoute($this->tabula,"/admin",$this,"render"));
     }
 
     public function registerPane(AdminPane $pane, ?string $group = null): void{
@@ -35,7 +35,11 @@ class Admin {
 
         $groups = $this->prepareGroups();
         $activeItem = $this->activeItem();
-        
+        $activeRendered = null;
+        if($activeItem){
+            $activeRendered = $activeItem->render();
+        }
+
         $errors = $this->tabula->session->getErrors();
         $semantic = $this->tabula->registry->getUriBase().'/vendor/semantic/ui/dist/';
         $semanticJs = $semantic . 'semantic.min.js';
@@ -45,6 +49,7 @@ class Admin {
         $page->set('groups',$groups);
         $page->set('items',$this->panes);
         $page->set('activeItem',$activeItem);
+        $page->set('activeRendered',$activeRendered);
 
         $page->set('errors',$errors);
         $page->set('semanticJs',$semanticJs);

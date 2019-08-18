@@ -49,8 +49,7 @@ class UsersPane extends AdminPane {
 
             if($passed){
                 $this->userModel->newUser($name,$email,$password);
-                header('Location: ' . $this->request->getSelf([],['action'],true),true,303);
-                die();
+                $this->tabula->redirect($this->request->getSelf([],['action'],true));
             }
 
             $page->set('email', $email);
@@ -64,12 +63,13 @@ class UsersPane extends AdminPane {
         $page = new Page($this->tabula,"admin/panes/auth/newUser.html");
         $this->tabula->renderer->addScript('auth/editUser.js');
 
+        $page->set('edit',true);
+
         $id = $this->request->get('id');
         $user = $this->userModel->loadUser($id);
 
         if(!$user){
-            header('Location: ' . $this->request->getSelf([],['action','id'],true),true,303);
-            die();
+            $this->tabula->redirect($this->request->getSelf([],['action','id'],true));
         }
 
         $page->set('email', $user['email']);
@@ -85,8 +85,7 @@ class UsersPane extends AdminPane {
 
             if($passed){
                 $this->userModel->updateUser($id,$name,$email,$password);
-                header('Location: ' . $this->request->getSelf([],['action','id'],true),true,303);
-                die();
+                $this->tabula->redirect($this->request->getSelf([],['action','id'],true));
             }
 
             $page->set('email', $email);
@@ -99,18 +98,15 @@ class UsersPane extends AdminPane {
     private function deleteUser(): string{
         if (!$this->request->has('id')){
             $this->tabula->session->addError('No user found to delete');
-            header('Location: ' . $this->request->getSelf([],['action','id'],true),true,303);
-            die();
+            $this->tabula->redirect($this->request->getSelf([],['action','id'],true));
         }
         $id = $this->request->get('id');
         if ($this->tabula->session->getUserId() === $id){
             $this->tabula->session->addError('Cannot delete your own user');
-            header('Location: ' . $this->request->getSelf([],['action','id'],true),true,303);
-            die();
+            $this->tabula->redirect($this->request->getSelf([],['action','id'],true));
         }
         $this->userModel->delete($id);
-        header('Location: ' . $this->request->getSelf([],['action','id'],true),true,303);
-        die();
+        $this->tabula->redirect($this->request->getSelf([],['action','id'],true));
         return '';
     }
 
@@ -133,6 +129,6 @@ class UsersPane extends AdminPane {
      * Return an icon for the menu if you want to
      */
     public function getIcon(): ?string{
-        return "users";
+        return "user";
     }
 }

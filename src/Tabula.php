@@ -67,4 +67,14 @@ class Tabula {
         //Last step, hand off to router
         $this->router->doRouting();
     }
+
+    //Helper functions from here on
+
+    /**
+     * Redirect to the specified uri
+     */
+    public function redirect(string $uri){
+        header("Location: $uri",true,303);
+        die();
+    }
 }

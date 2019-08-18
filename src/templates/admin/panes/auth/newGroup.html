@@ -1,0 +1,13 @@
+<form class="ui form" method="POST">
+    <h3 class="ui header">{% if edit %}Edit{% else %}Create{% endif %} Group</h3>
+    <div class="ui error message">
+    </div>
+    <div class="required field">
+        <label>Name</label>
+        <div class="ui input" style="overflow:hidden;">
+            <input type="text" name="name" value="{{ name }}" />
+        </div>
+    </div>
+    <a class="ui clear negative button right floated" href="{{ request.getSelf([],['action']) }}">Cancel</a>
+    <a class="ui primary submit button right floated">Save</a>
+</form>

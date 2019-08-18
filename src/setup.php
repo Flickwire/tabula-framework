@@ -29,6 +29,9 @@ function initial_setup(\Tabula\Tabula $tabula){
     $db->query('CREATE TABLE tb_users_permissions (id BIGINT AUTO_INCREMENT NOT NULL, user BIGINT NOT NULL, permission NVARCHAR(255), CONSTRAINT PK PRIMARY KEY (id), CONSTRAINT FK_userperms_user FOREIGN KEY (user) REFERENCES tb_users(id));');
     $db->query('CREATE TABLE tb_usergroups_permissions (id BIGINT AUTO_INCREMENT NOT NULL, usergroup BIGINT NOT NULL, permission NVARCHAR(255), CONSTRAINT PK PRIMARY KEY (id), CONSTRAINT FK_groupperms_usergroup FOREIGN KEY (usergroup) REFERENCES tb_usergroups(id));');
 
+    $db->query('CREATE FULLTEXT INDEX users_names ON tb_users(displayname, email);');
+    
     $db->query('INSERT INTO tb_users (email, passwd, displayname) VALUES ("info@polymathic.ltd","$argon2id$v=19$m=1024,t=2,p=2$UUxDd2xleVU2cUlqdEVwVQ$nCqeHS2fTuNPn9uoYliSbl8Epp/R8bEGoTP6w6qZdSo","Polymathic Ltd.");');
+    $db->query('INSERT INTO tb_users (email, passwd, displayname) VALUES ("GUEST","","Guest");');
     $db->query('INSERT INTO tb_core VALUES ("version","1.0");');
 }

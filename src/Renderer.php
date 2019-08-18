@@ -15,6 +15,7 @@ class Renderer {
     private $loader;
 
     private $scripts;
+    private $injectVars = [];
 
     public function __construct(Tabula $tabula){
         $this->tabula = $tabula;
@@ -41,6 +42,7 @@ class Renderer {
         $this->twig->addGlobal('request',$tabula->registry->getRequest());
         $this->twig->addGlobal('lang','en');
         $this->twig->addGlobal('sitename',$tabula->registry->getSiteName());
+        $this->twig->addGlobal('tabulaBaseUri',$tabula->registry->getUriBase().'/');
     }
 
     public function registerTemplateDir(string $path): void{
@@ -55,8 +57,18 @@ class Renderer {
         $this->scripts[] = '@scripts/' . $script;
     }
 
+    public function injectVar($name,$var): void{
+        $this->injectVars[$name] = $var;
+    }
+
     public function render(string $template, array $vars, bool $toString = false): ?string{
         $template = str_replace('/',DS,$template);
+
+        foreach ($this->injectVars as $key => $value) {
+            if(!array_key_exists($key,$vars)){
+                $vars[$key] = $value;
+            }
+        }
 
         $vars['___includeScripts'] = $this->scripts;
         

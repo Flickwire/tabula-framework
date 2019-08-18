@@ -77,8 +77,8 @@
             {% endif %}
             
             <div>
-                {% if activeItem %}
-                {{ activeItem.render()|raw }}
+                {% if activeRendered %}
+                {{ activeRendered|raw }}
                 {% else %}
                 {% include "admin/panes/default.html" %}
                 {% endif %}

@@ -14,7 +14,8 @@ class Users{
     }
 
     public function getUsers(int $offset = 0, int $limit = 0){
-        $query = "SELECT id, displayname, email FROM {$this->table}";
+        //Filter out guest user when listing users
+        $query = "SELECT id, displayname, email FROM {$this->table} WHERE NOT email='GUEST'";
         if ($limit !== 0){
             $query .= " LIMIT ?i";
             if ($offset !== 0){
@@ -29,6 +30,15 @@ class Users{
     public function get(int $id){
         $query = "SELECT id, displayname, email FROM {$this->table} WHERE id = ?i";
         $result = $this->db->query($query,$id)->fetch();
+        if (!$result){
+            return null;
+        }
+        return new User($result['id'],$result['displayname'],$result['email']);
+    }
+
+    public function guest(){
+        $query = "SELECT id, displayname, email FROM {$this->table} WHERE email = 'GUEST'";
+        $result = $this->db->query($query)->fetch();
         if (!$result){
             return null;
         }
@@ -59,6 +69,11 @@ class Users{
     }
 
     public function delete($id){
+        $session = $this->tabula->session;
+        if($this->isGuest($id)){
+            $session->addError('Cannot delete the guest user');
+            return false;
+        }
         $query = "DELETE FROM {$this->table} WHERE id = ?i";
         $this->db->query($query,$id);
     }
@@ -165,6 +180,11 @@ class Users{
     }
 
     public function updateUser($id,$name,$email,$password){
+        $session = $this->tabula->session;
+        if($this->isGuest($id)){
+            $session->addError('Cannot alter the guest user');
+            return false;
+        }
         $query = "UPDATE {$this->table} SET displayname = ?s, email = ?s, passwd = ?s WHERE id = ?s";
         $queryNoPasswd = "UPDATE {$this->table} SET displayname = ?s, email = ?s WHERE id = ?s";
         if(is_null($password) || $password === ''){
@@ -173,5 +193,14 @@ class Users{
             $hash = $this->hashPassword($password);
             $this->db->query($query,$name,$email,$hash,$id);
         }
+    }
+
+    /**
+     * We don't want to do *most things* to the guest user
+     */
+    private function isGuest($id){
+        $query = "SELECT id, displayname, email FROM {$this->table} WHERE email = 'GUEST'";
+        $guest = $this->db->query($query)->fetch();
+        return $id === $guest['id'];
     }
 }

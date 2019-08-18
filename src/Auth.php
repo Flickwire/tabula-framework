@@ -6,11 +6,14 @@ use Tabula\Auth\Pages\Login;
 use Tabula\Auth\Pages\Register;
 
 use Tabula\Auth\Panes\UsersPane;
+use Tabula\Auth\Panes\GroupsPane;
 use Tabula\Auth\Panes\OptionsPane;
-use Tabula\Auth\User;
+use Tabula\Auth\Models\Users;
+use Tabula\Auth\API;
 
 class Auth {
-    private $user;
+    public $user;
+    private $userModel;
 
     //Can use this to check if user is logged in
     public $isLoggedIn = false;
@@ -21,17 +24,22 @@ class Auth {
         $router = $tabula->router;
         $router->register(new Route("/login",$this,"renderLogin"));
         $router->register(new Route("/register",$this,"renderRegister"));
+
+        $router->register(new Route("/api/auth",$this,"authApi"));
         
         $adminPane = $tabula->registry->getAdminPanel();
         $adminPane->registerPane(new UsersPane($this->tabula),'Auth');
+        $adminPane->registerPane(new GroupsPane($this->tabula),'Auth');
         $adminPane->registerPane(new OptionsPane($this->tabula),'Auth');
+
+        $this->userModel = new Users($tabula);
 
         //Check if user is logged in
         if ($this->tabula->session->hasUserId()){
-            $this->user = new User(['displayname'=>'Name','email'=>'yeet'],[],[]);
+            $this->user = $this->userModel->get($this->tabula->session->getUserId());
             $this->isLoggedIn = true;
         } else {
-            $this->user = User::guest();
+            $this->user = $this->userModel->guest();
             $this->isLoggedIn = false;
         }
     }
@@ -42,5 +50,9 @@ class Auth {
 
     public function renderRegister(): void{
         (new Register($this->tabula,$this))->render();
+    }
+
+    public function authApi(): void{
+        (new API($this->tabula,$this))->begin();
     }
 }
