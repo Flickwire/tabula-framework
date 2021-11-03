@@ -1,11 +1,11 @@
 {
-    "name": "polymathic/tabula",
+    "name": "tabula/tabula",
     "description": "Tabula Framework",
-    "license": "Proprietary",
+    "license": "MIT",
     "authors": [
         {
             "name": "Skye",
-            "email": "skye@domos.me.uk"
+            "email": "skye@blueskye.co.uk"
         }
     ],
     "require": {

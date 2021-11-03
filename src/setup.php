@@ -31,7 +31,8 @@ function initial_setup(\Tabula\Tabula $tabula){
 
     $db->query('CREATE FULLTEXT INDEX users_names ON tb_users(displayname, email);');
     
-    $db->query('INSERT INTO tb_users (email, passwd, displayname) VALUES ("info@polymathic.ltd","$argon2id$v=19$m=1024,t=2,p=2$UUxDd2xleVU2cUlqdEVwVQ$nCqeHS2fTuNPn9uoYliSbl8Epp/R8bEGoTP6w6qZdSo","Polymathic Ltd.");');
+    //TODO: Interactive setup to create administrative account
+    $db->query('INSERT INTO tb_users (email, passwd, displayname) VALUES ("administrator","$argon2id$v=19$m=1024,t=2,p=2$UUxDd2xleVU2cUlqdEVwVQ$nCqeHS2fTuNPn9uoYliSbl8Epp/R8bEGoTP6w6qZdSo","Administrator");');
     $db->query('INSERT INTO tb_users (email, passwd, displayname) VALUES ("GUEST","","Guest");');
     $db->query('INSERT INTO tb_core VALUES ("version","1.0");');
 }
